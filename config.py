@@ -1,27 +1,21 @@
-# Statement for enabling the development environment
-DEBUG = True
-
-# Define the application directory
 import os
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+from dotenv import load_dotenv
 
-# Define the database - we are working with
-# SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
-DATABASE_CONNECT_OPTIONS = {}
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
-# Application threads. A common general assumption is
-# using 2 per available processor cores - to handle
-# incoming requests using one and performing background
-# operations using the other.
-THREADS_PER_PAGE = 2
-
-# Enable protection agains *Cross-site Request Forgery (CSRF)*
-CSRF_ENABLED     = True
-
-# Use a secure, unique and absolutely secret key for
-# signing the data.
-CSRF_SESSION_KEY = "secret"
-
-# Secret key for signing cookies
-SECRET_KEY = "secret"
+# redo!!!
+class Config(object):
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+                              'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS') is not None
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    ADMINS = ['your-email@example.com']
+    LANGUAGES = ['en', 'es']
+    MS_TRANSLATOR_KEY = os.environ.get('MS_TRANSLATOR_KEY')
+    POSTS_PER_PAGE = 25
