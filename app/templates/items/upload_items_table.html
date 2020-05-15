@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block styles %}
+
+{{super()}}
+
+<!-- Datatable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+
+
+
+{% endblock %}
+
+{% block app_content %}
+
+<div class="container">
+    <div class="card-body">
+
+
+        <div class="mt-4">
+            <table id="test_name" class="display table nowrap responsive" style="width: 100%">
+                <thead>
+                <h1> TABLE </h1>
+                <tr>
+                    {% for header in fieldnames %}
+                    <th>{{header}}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in results %}
+                <tr>
+                    {% for index in range(0, len(fieldnames)) %}
+                    <td>{{row[fieldnames[index]]}}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="col-md-4">
+                <form  method="post">
+                    <button name="forwardBtn" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Datatable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+
+<!-- Datatable instance -->
+<script type="text/javascript">
+        $('#test_name').DataTable();
+
+      </script>
+
+{% endblock %}

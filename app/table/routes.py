@@ -3,9 +3,10 @@ from flask import request
 from app.table import bp
 import csv
 
+
 @bp.route('/table', methods=['GET', 'POST'])
 def table():
-    if request.method =='GET':
+    if request.method == 'GET':
         return render_template('table/table.html')
     elif request.method == 'POST':
         results = []
@@ -18,4 +19,6 @@ def table():
 
         fieldnames = [key for key in results[0].keys()]
 
-        return render_template('table/table.html', results=results, fieldnames=fieldnames, len=len)
+        return render_template('table/table.html',
+                               results=results,
+                               fieldnames=fieldnames, len=len)

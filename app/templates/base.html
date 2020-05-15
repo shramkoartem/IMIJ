@@ -10,7 +10,26 @@
         <ul class="nav navbar-nav">
             <li><a href="{{ url_for('main.index') }}">{{ ('Home') }}</a></li>
             <li><a href="{{ url_for('table.table') }}">{{ ('Table') }}</a></li>
+            <li><a href="{{ url_for('items.items') }}">{{ ('Items') }}</a></li>
+            <li><a href="{{ url_for('items.add_item') }}">{{ ('Add item') }}</a></li>
+            <li><a href="{{ url_for('items.upload_file') }}">{{ ('Upload items') }}</a></li>
+
         </ul>
     </div>
 </nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {# application content needs to be provided in the app_content block #}
+    {% block app_content %}{% endblock %}
+</div>
 {% endblock %}
