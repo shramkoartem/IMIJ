@@ -22,3 +22,8 @@ def table():
         return render_template('table/table.html',
                                results=results,
                                fieldnames=fieldnames, len=len)
+
+
+@bp.route('/editable_table', methods=['GET', 'POST'])
+def etable():
+    return render_template('table/editable_html5.html', title='HTML5')
