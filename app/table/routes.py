@@ -28,3 +28,10 @@ def table():
 def etable():
     return render_template('table/editable_html5.html', title='HTML5')
 
+
+@bp.route("/postmethod", methods=[ 'GET','POST'])
+def postmethod():
+    queryStringDict = request.get_json(force=True)
+    print(queryStringDict)
+    flash('success')
+    return jsonify(success=1)

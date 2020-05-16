@@ -70,6 +70,58 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!-- Table JS -->
-<script src="{{ url_for('static',filename='js/editable_html5.js') }}"> </script>
+<script src="{{ url_for('static',filename='editable_html5.js') }}"> </script>
+
+
+<script>
+var $BTN = $('#export-btn');
+var $TABLE = $('#table');
+var $EXPORT = $('#export');
+
+
+// A few jQuery helpers for exporting only
+jQuery.fn.pop = [].pop;
+jQuery.fn.shift = [].shift;
+
+$BTN.click(function () {
+  var $rows = $TABLE.find('tr:not(:hidden)');
+  var headers = [];
+  var data = [];
+
+  // Get the headers (add special header logic here)
+  $($rows.shift()).find('th:not(:empty)').each(function () {
+    headers.push($(this).text().toLowerCase());
+  });
+
+  // Turn all existing rows into a loopable array
+  $rows.each(function () {
+    var $td = $(this).find('td');
+    var h = {};
+
+    // Use the headers from earlier to name our hash keys
+    headers.forEach(function (header, i) {
+      h[header] = $td.eq(i).text();
+    });
+
+    data.push(h);
+    console.log('test')
+
+  });
+
+  // Output the result
+  $EXPORT.text(JSON.stringify(data));
+
+    $.ajax({
+        type: 'POST',
+        url: '/items/postmethod',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function (response_data) {
+        alert("success");
+        }
+    });
+});
+</script>
+
 
 {% endblock %}
