@@ -47,8 +47,37 @@ $BTN.click(function () {
     });
 
     data.push(h);
+    console.log('test')
+
+    var value_data = [1, 2, 3, 4];
+
+    $.ajax({
+        type: 'POST',
+        url: '/items/upload_file1',
+        data: JSON.stringify(value_data),
+        contentType: 'application/json',
+        success: function (response_data) {
+            alert("success");
+        }
+    });
+
   });
 
   // Output the result
   $EXPORT.text(JSON.stringify(data));
+
+/* var value_data = [1, 2, 3, 4];
+
+$.ajax({
+    type: 'POST',
+    url: '/items/upload_file1',
+    data: JSON.stringify(value_data),
+    contentType: 'application/json',
+    success: function (response_data) {
+        alert("success");
+    }
+});*/
+
 });
+
+console.log('test')

@@ -43,6 +43,22 @@ def items():
                            fieldnames=fieldnames, len=len)
 
 
+@bp.route('/items_editable', methods=['GET', 'POST'])
+def items_editable():
+
+    results = [item.__dict__ for item in Item.query.all()]
+    # fieldnames = [key for key in results[0].keys() if "_" not in key]
+    fieldnames = ["barcode", 'name', 'amount', 'price']
+
+    if request.method == "POST":
+        print(request.get_json())
+
+    return render_template('items/items_edit.html',
+                           results=results,
+                           fieldnames=fieldnames, len=len)
+
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in current_app.config["ALLOWED_EXTENSIONS"]
@@ -115,3 +131,44 @@ def uploaded_items():
                            results=data,
                            fieldnames=fieldnames,
                            len=len)
+
+#
+# @bp.route('/postmethod', methods = ['POST'])
+# def get_post_javascript_data():
+#     jsdata = request.form['javascript_data']
+#     print(jsdata)
+#     return jsdata
+
+#
+# @app.route('/postmethod', methods = ['POST'])
+# def get_post_javascript_data():
+#     jsdata = request.form['javascript_data']
+#     return jsdata
+
+@bp.route("/upload_file1", methods=["GET", 'POST'])
+def upload_file1():
+
+    results = [item.__dict__ for item in Item.query.all()]
+    fieldnames = ["barcode", 'name', 'amount', 'price']
+
+    # if request.method == "GET":
+    #     queryStringDict = request.args
+    #     print(queryStringDict)
+    #     #return render_template('items/upload_file_form.html', title="Upload file")
+
+    if request.method == "POST":
+        queryStringDict = request.get_json(force=True)
+        print(queryStringDict)
+        flash('success')
+        return redirect(url_for('main.index'))
+        # jsdata = request.form['javascript_data']
+        # print()
+
+    return render_template('items/items_edit.html',
+                           results=results,
+                           fieldnames=fieldnames, len=len)
+    #
+    # Request URL: http://127.0.0.1:5000/items/uploaded_items?file_path=%2Fhome%2Fle-roy%2FDocuments%2Fpy%2FIMIJ%2Ftemp%2Fdata.csv
+
+
+
