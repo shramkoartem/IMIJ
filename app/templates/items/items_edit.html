@@ -69,33 +69,15 @@
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-<!-- Export Data
-<script src="{{ url_for('static',filename='js/editable_html5.js') }}"> </script>-->
+<!-- Export Data -->
+<script src="{{ url_for('static',filename='editable_html5.js') }}"> </script>
+
 
 <script>
-var $TABLE = $('#table');
 var $BTN = $('#export-btn');
+var $TABLE = $('#table');
 var $EXPORT = $('#export');
 
-$('.table-add').click(function () {
-  var $clone = $TABLE.find('tr.hide').clone(true).removeClass('hide table-line');
-  $TABLE.find('table').append($clone);
-});
-
-$('.table-remove').click(function () {
-  $(this).parents('tr').detach();
-});
-
-$('.table-up').click(function () {
-  var $row = $(this).parents('tr');
-  if ($row.index() === 1) return; // Don't go above the header
-  $row.prev().before($row.get(0));
-});
-
-$('.table-down').click(function () {
-  var $row = $(this).parents('tr');
-  $row.next().after($row.get(0));
-});
 
 // A few jQuery helpers for exporting only
 jQuery.fn.pop = [].pop;
@@ -124,24 +106,21 @@ $BTN.click(function () {
     data.push(h);
     console.log('test')
 
-    var value_data = [1, 2, 3, 4];
-
-    $.ajax({
-        type: 'POST',
-        url: '/items/upload_file1',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function (response_data) {
-        }
-    });
-
   });
 
   // Output the result
   $EXPORT.text(JSON.stringify(data));
 
+    $.ajax({
+        type: 'POST',
+        url: '/items/postmethod',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function (response_data) {
+        alert("success");
+        }
+    });
 });
-
 </script>
 
 {% endblock %}

@@ -9,13 +9,7 @@ from werkzeug.utils import secure_filename
 from app.models import Item
 from datetime import datetime
 from app import db
-from flask import jsonify
 
-
-# @bp.route('/items', methods=["GET", "POST"])
-# def items():
-#     form = AddItemForm()
-#     return render_template('items/items_table.html', title="Items in store", form=form)
 
 
 @bp.route('/add_item', methods=["GET", "POST"])
@@ -132,43 +126,28 @@ def uploaded_items():
                            fieldnames=fieldnames,
                            len=len)
 
+
+# @bp.route("/upload_file1", methods=["GET", 'POST'])
+# def upload_file1():
 #
-# @bp.route('/postmethod', methods = ['POST'])
-# def get_post_javascript_data():
-#     jsdata = request.form['javascript_data']
-#     print(jsdata)
-#     return jsdata
-
+#     results = [item.__dict__ for item in Item.query.all()]
+#     fieldnames = ["barcode", 'name', 'amount', 'price']
 #
-# @app.route('/postmethod', methods = ['POST'])
-# def get_post_javascript_data():
-#     jsdata = request.form['javascript_data']
-#     return jsdata
-
-@bp.route("/upload_file1", methods=["GET", 'POST'])
-def upload_file1():
-
-    results = [item.__dict__ for item in Item.query.all()]
-    fieldnames = ["barcode", 'name', 'amount', 'price']
-
-    # if request.method == "GET":
-    #     queryStringDict = request.args
-    #     print(queryStringDict)
-    #     #return render_template('items/upload_file_form.html', title="Upload file")
-
-    if request.method == "POST":
-        queryStringDict = request.get_json(force=True)
-        print(queryStringDict)
-        flash('success')
-        return redirect(url_for('main.index'))
-        # jsdata = request.form['javascript_data']
-        # print()
-
-    return render_template('items/items_edit.html',
-                           results=results,
-                           fieldnames=fieldnames, len=len)
-    #
-    # Request URL: http://127.0.0.1:5000/items/uploaded_items?file_path=%2Fhome%2Fle-roy%2FDocuments%2Fpy%2FIMIJ%2Ftemp%2Fdata.csv
+#     if request.method == "POST":
+#         queryStringDict = request.get_json(force=True)
+#         print(queryStringDict)
+#         flash('success')
+#         return redirect(url_for('items.items'))
+#
+#     return render_template('items/items_edit.html',
+#                            results=results,
+#                            fieldnames=fieldnames, len=len)
 
 
 
+@bp.route("/postmethod", methods=[ 'GET','POST'])
+def postmethod():
+    queryStringDict = request.get_json(force=True)
+    print(queryStringDict)
+    flash('success')
+    return redirect(url_for('items.upload_file'))

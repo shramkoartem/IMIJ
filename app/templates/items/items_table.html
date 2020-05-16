@@ -8,6 +8,9 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/editable_html5.css') }}">
+
+
 {% endblock %}
 
 {% import 'bootstrap/wtf.html' as wtf %}
@@ -21,26 +24,49 @@
 <div class="container">
     <div class="card-body">
         <div class="mt-4">
-            <table id="test_name" class="display table nowrap responsive" style="width: 100%">
+            <div id="table" class="table-editable">
+
+            <span class="table-add glyphicon glyphicon-plus"></span>
+
+            <table id="item_table" class="display table nowrap responsive table-editable" style="width: 100%">
                 <thead>
                 <h1> TABLE </h1>
                 <tr>
                     {% for header in fieldnames %}
                     <th>{{header}}</th>
                     {% endfor %}
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
+                <!-- This is our clonable table line -->
+                <tr class="hide">
+                    {% for index in range(0, len(fieldnames)) %}
+                    <td contenteditable="true">Untitled</td>
+                    {% endfor %}
+                    <td>
+                        <span class="table-remove glyphicon glyphicon-remove"></span>
+                    </td>
+
+                </tr>
                 {% for row in results %}
                 <tr>
                     {% for index in range(0, len(fieldnames)) %}
-                    <td>{{row[fieldnames[index]]}}</td>
+                    <td contenteditable="true">{{row[fieldnames[index]]}}</td>
                     {% endfor %}
+                    <td>
+                        <span class="table-remove glyphicon glyphicon-remove"></span>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            </div>
        </div>
+
+        <button id="export-btn" class="btn btn-primary">Export Data</button>
+        <p id="export"></p>
+
    </div>
 </div>
 {% endblock %}
@@ -59,7 +85,62 @@
 
 <!-- Datatable instance -->
 <script type="text/javascript">
-        $('#test_name').DataTable();
+        $('#item_table').DataTable();
       </script>
+
+<!-- Export Data -->
+<script src="{{ url_for('static',filename='editable_html5.js') }}"> </script>
+
+
+<script>
+var $BTN = $('#export-btn');
+var $TABLE = $('#table');
+var $EXPORT = $('#export');
+
+
+// A few jQuery helpers for exporting only
+jQuery.fn.pop = [].pop;
+jQuery.fn.shift = [].shift;
+
+$BTN.click(function () {
+  var $rows = $TABLE.find('tr:not(:hidden)');
+  var headers = [];
+  var data = [];
+
+  // Get the headers (add special header logic here)
+  $($rows.shift()).find('th:not(:empty)').each(function () {
+    headers.push($(this).text().toLowerCase());
+  });
+
+  // Turn all existing rows into a loopable array
+  $rows.each(function () {
+    var $td = $(this).find('td');
+    var h = {};
+
+    // Use the headers from earlier to name our hash keys
+    headers.forEach(function (header, i) {
+      h[header] = $td.eq(i).text();
+    });
+
+    data.push(h);
+    console.log('test')
+
+  });
+
+  // Output the result
+  $EXPORT.text(JSON.stringify(data));
+
+    $.ajax({
+        type: 'POST',
+        url: '/items/postmethod',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function (response_data) {
+        alert("success");
+        }
+    });
+});
+</script>
+
 
 {% endblock %}
