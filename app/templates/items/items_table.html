@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 
+<meta id="table_data" table-data="{{ results }}">
 
 {% endblock %}
 
@@ -36,13 +37,14 @@
                     {% for row in results %}
                     <tr>
                         {% for index in range(0, len(fieldnames)) %}
-                        <td >{{row[fieldnames[index]]}}</td>
+                        <td id="content_cell" contenteditable="false">{{row[fieldnames[index]]}}</td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-
+            <button id="editable_rows_button">Enable editing</button>
+            <p id="view_row_data"></p>
        </div>
    </div>
 </div>
@@ -62,7 +64,31 @@
 
 <!-- Datatable instance -->
 <script type="text/javascript">
-        $('#item_table').DataTable();
+$(document).ready(function() {
+         let table = $('#item_table').DataTable();
+
+          $('#item_table tbody').on('click', 'tr', function(){
+                    if ( $(this).hasClass('selected') ) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        table.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                        let dt = table.row('.selected').data();
+                        console.log(dt);
+                        $('#view_row_data').text(dt)
+                    }
+                } );
+
+
+
+} );
 </script>
+
+<!-- Enable row editing button -->
+<script src="{{ url_for('static',filename='js/table_editable_content_btn.js') }}"> </script>
+
+
+
 
 {% endblock %}

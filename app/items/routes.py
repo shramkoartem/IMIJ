@@ -55,7 +55,7 @@ def items_editable_table():
     if request.method == "POST":
         return redirect(url_for('items.items'))
 
-    return render_template('items/items_editable_table.html',
+    return render_template('items/items_table.html',
                            results=data,
                            fieldnames=fieldnames, len=len)
 
