@@ -68,19 +68,30 @@ $(document).ready(function() {
          let table = $('#item_table').DataTable();
 
           $('#item_table tbody').on('click', 'tr', function(){
-                    if ( $(this).hasClass('selected') ) {
+                    if ( $(this).hasClass('selected'))                        
+                        {
                         $(this).removeClass('selected');
+                        
                     }
                     else {
                         table.$('tr.selected').removeClass('selected');
                         $(this).addClass('selected');
-                        let dt = table.row('.selected').data();
-                        console.log(dt);
-                        $('#view_row_data').text(dt)
+
+                        let old_data = table.row('.selected').data();
+
+                        let dt = $('tr.selected').get()[0].children;
+                        let data_list = [];
+                        for(i = 0; i < dt.length; i++){
+                            data_list.push(dt[i].textContent);
+                            old_data[i] = dt[i].textContent;
+                        }
+                        console.log(data_list);
+                        
+                        //table.row('.selected').data() = data_list;
+                        console.log("New: " + table.row('.selected').data());
+
                     }
                 } );
-
-
 
 } );
 </script>
