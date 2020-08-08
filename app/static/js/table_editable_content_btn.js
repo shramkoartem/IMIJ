@@ -7,13 +7,13 @@ of element <td>
 
 $(document).ready(function(){
     $('#editable_rows_button').click(function(){
-        if ($('.selected').attr('contenteditable') == "false"){
+        if ($('td').attr('contenteditable') == "false"){
             alert("Editing is enabled.");
-            $('.selected').attr("contenteditable", "true");
+            $('td').attr("contenteditable", "true");
             $('#editable_rows_button').text("Disable editing");
         } else {
             alert("Editing is disabled.");
-            $('.selected').attr("contenteditable", "false");
+            $('td').attr("contenteditable", "false");
             $('#editable_rows_button').text("Enable editing");
         }
     });

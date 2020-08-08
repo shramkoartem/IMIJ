@@ -63,38 +63,7 @@
 <script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
 
 <!-- Datatable instance -->
-<script type="text/javascript">
-$(document).ready(function() {
-         let table = $('#item_table').DataTable();
-
-          $('#item_table tbody').on('click', 'tr', function(){
-                    if ( $(this).hasClass('selected'))                        
-                        {
-                        $(this).removeClass('selected');
-                        
-                    }
-                    else {
-                        table.$('tr.selected').removeClass('selected');
-                        $(this).addClass('selected');
-
-                        let old_data = table.row('.selected').data();
-
-                        let dt = $('tr.selected').get()[0].children;
-                        let data_list = [];
-                        for(i = 0; i < dt.length; i++){
-                            data_list.push(dt[i].textContent);
-                            old_data[i] = dt[i].textContent;
-                        }
-                        console.log(data_list);
-                        
-                        //table.row('.selected').data() = data_list;
-                        console.log("New: " + table.row('.selected').data());
-
-                    }
-                } );
-
-} );
-</script>
+<script src="{{ url_for('static',filename='js/datatable_main.js') }}"> </script>
 
 <!-- Enable row editing button -->
 <script src="{{ url_for('static',filename='js/table_editable_content_btn.js') }}"> </script>
