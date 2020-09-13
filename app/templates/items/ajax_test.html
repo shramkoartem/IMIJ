@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block styles %}
+
+{{super()}}
+
+<!-- Datatable -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
+
+{% endblock %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block item_content %}
+
+{% endblock %}
+
+{% block app_content %}
+
+<div class="container">
+    <div class="card-body">
+        <div class="mt-4">
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>barcode</th>
+                    <th>price</th>
+                    <th>name</th>
+                    <th>id</th>
+                    <th>amount</th>
+
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>barcode</th>
+                    <th>price</th>
+                    <th>name</th>
+                    <th>id</th>
+                    <th>amount</th>
+
+                </tr>
+                </tfoot>
+            </table>
+            <button id="ajax_refresh">Refresh data</button>
+            <p id="view_row_data"></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Datatable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type = "text/javascript"  src="https://cdn.datatables.net/plug-ins/1.10.15/dataRender/datetime.js"></script>
+
+<!-- Datatable instance -->
+<script >
+$(document).ready(function() {
+    example_table = {
+        "scrollX": true,
+        "pageLength": 10,
+        "processing": true,
+
+        "ajax": {
+        "url" : "/items/ajax_data/",
+        "dataType" : "json",
+         "type": "POST",
+         "dataSrc": "data"
+        },
+       "columns": [
+        {data: "barcode"},
+        {data: "price"},
+        {data: "name"},
+        {data: "id"},
+        {data: "amount"}
+        ],
+
+    } ;
+
+       $('#example tbody').on('click', 'tr', function () {
+        var id = this.id;
+        var index = $.inArray(id, selected);
+
+        if ( index === -1 ) {
+            selected.push( id );
+        } else {
+            selected.splice( index, 1 );
+        }
+
+        $(this).toggleClass('selected');
+    } );
+
+    // Updating data on server side
+    $('#ajax_refresh').click( function () {
+
+        table.ajax.reload(null, false);
+    });
+
+
+
+    var table = $('#example').DataTable(example_table);
+} );
+
+
+
+
+</script>
+
+<!-- Enable row editing button -->
+<script src="{{ url_for('static',filename='js/table_editable_content_btn.js') }}"> </script>
+
+
+{% endblock %}

@@ -31,6 +31,34 @@ def items():
                            fieldnames=fieldnames, len=len)
 
 
+#####################################################################################
+@bp.route('/datatable_ajax', methods=["GET", "POST"])
+def test_ajax_table():
+    items = [item.__dict__ for item in Item.query.all()]
+    for item in items:
+        item.pop("_sa_instance_state", None)
+    print(items[0])
+    return render_template("items/ajax_test.html")
+
+@bp.route('/ajax_data/', methods=["POST"])
+def get_data():
+    items = [item.__dict__ for item in Item.query.all()]
+    for item in items:
+        item.pop("_sa_instance_state", None)
+    print(jsonify(items[0]))
+
+    response = {
+        "data": items,
+        'recordsTotal': len(items),
+        'recordsFiltered': len(items),
+        'draw': 1,
+    }
+    return jsonify(response)
+#####################################################################################
+
+
+
+
 @bp.route('/items_editable_table/', methods=['GET', 'POST'])
 @bp.route('/items_editable_table', methods=['GET', 'POST'])
 def items_editable_table():
