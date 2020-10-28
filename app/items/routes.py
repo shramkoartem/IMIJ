@@ -31,7 +31,18 @@ def items():
                            fieldnames=fieldnames, len=len)
 
 
+@bp.route('/autocomplete', methods=["GET", "POST"])
+def autocomplete():
+    return render_template('items/autocomplete.html')
+
 #####################################################################################
+
+"""
+AJAX sourced DataTable instance
+
+:f get_data(): returns JSON 
+"""
+
 @bp.route('/datatable_ajax', methods=["GET", "POST"])
 def test_ajax_table():
     items = [item.__dict__ for item in Item.query.all()]
@@ -40,8 +51,23 @@ def test_ajax_table():
     print(items[0])
     return render_template("items/ajax_test.html")
 
+@bp.route('/autocomplete_ajax', methods=["GET", "POST"])
+def test_autocomplete():
+    items = [item.__dict__ for item in Item.query.all()]
+    for item in items:
+        item.pop("_sa_instance_state", None)
+    print(items[0])
+    return render_template("items/search_test.html")
+
+
 @bp.route('/ajax_data/', methods=["POST"])
 def get_data():
+    """
+    AJAX source for DataTable instance.
+    Endpoint sourcing db for DataTable instance on POST.
+    Enables updating table data without page refresh.
+    :return: JSON response containing all items from db
+    """
     items = [item.__dict__ for item in Item.query.all()]
     for item in items:
         item.pop("_sa_instance_state", None)
@@ -54,6 +80,7 @@ def get_data():
         'draw': 1,
     }
     return jsonify(response)
+
 #####################################################################################
 
 
