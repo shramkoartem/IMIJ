@@ -47,3 +47,12 @@ input[type=submit] {
   background-color: DodgerBlue !important;
   color: #ffffff;
 }
+
+button  {
+  border: 1px solid transparent;
+  /*background-color: #f1f1f1;*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+  padding: 10px;
+  font-size: 16px;
+}
