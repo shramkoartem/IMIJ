@@ -31,6 +31,9 @@ def items():
                            fieldnames=fieldnames, len=len)
 
 
+#####################################################################################
+
+
 @bp.route('/autocomplete', methods=["GET", "POST"])
 def autocomplete():
     return render_template('items/autocomplete.html')
@@ -44,7 +47,7 @@ AJAX sourced DataTable instance
 """
 
 @bp.route('/datatable_ajax', methods=["GET", "POST"])
-def test_ajax_table():
+def datatable_ajax():
     items = [item.__dict__ for item in Item.query.all()]
     for item in items:
         item.pop("_sa_instance_state", None)
@@ -60,7 +63,7 @@ def test_autocomplete():
     return render_template("items/search_test.html")
 
 
-@bp.route('/ajax_data/', methods=["POST"])
+@bp.route('/ajax_data/', methods=["GET", "POST"])
 def get_data():
     """
     AJAX source for DataTable instance.
