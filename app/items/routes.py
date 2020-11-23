@@ -11,24 +11,16 @@ from app.models import Item
 from app import db
 
 
+#####################################################################################
+
 @bp.route('/add_item', methods=["GET", "POST"])
 def add_item():
+    """
+    Renders AddItemForm WTF form  
+    for commiting a new item to the db
+    """
     form = AddItemForm()
     return render_template('items/add_item.html', title="Add item", form=form)
-
-
-@bp.route('/items', methods=["GET", "POST"])
-def items():
-    results = [["Barcode", 'Name', 'Size', 'Price'],
-               ['12345', 'Key', 'M', '10']]
-
-    results = [item.__dict__ for item in Item.query.all()]
-    # fieldnames = [key for key in results[0].keys() if "_" not in key]
-    fieldnames = ["barcode", 'name', 'amount', 'price']
-
-    return render_template('items/items_table.html',
-                           results=results,
-                           fieldnames=fieldnames, len=len)
 
 
 #####################################################################################
@@ -36,6 +28,13 @@ def items():
 
 @bp.route('/autocomplete', methods=["GET", "POST"])
 def autocomplete():
+    """
+    Transactions page. Main logic in javascript file "autocomplete_items.js".
+    1. Calls AJAX datasource endpoint 'get_data()', 
+        retrieves all data from db for autocomplete function 
+    2. React renders editable list of items in transaction (basket)
+    3. TODO handle PUSH of basket when transaction is completed
+    """
     return render_template('items/autocomplete.html')
 
 #####################################################################################
@@ -48,19 +47,14 @@ AJAX sourced DataTable instance
 
 @bp.route('/datatable_ajax', methods=["GET", "POST"])
 def datatable_ajax():
-    items = [item.__dict__ for item in Item.query.all()]
-    for item in items:
-        item.pop("_sa_instance_state", None)
-    print(items[0])
-    return render_template("items/ajax_test.html")
+    """
+    AJAX sourced DataTable instance.
 
-@bp.route('/autocomplete_ajax', methods=["GET", "POST"])
-def test_autocomplete():
-    items = [item.__dict__ for item in Item.query.all()]
-    for item in items:
-        item.pop("_sa_instance_state", None)
-    print(items[0])
-    return render_template("items/search_test.html")
+    :f get_data(): returns JSON for the datatable 
+                   rendered on this page (see below)
+
+    """
+    return render_template("items/ajax_test.html")
 
 
 @bp.route('/ajax_data/', methods=["GET", "POST"])
@@ -87,69 +81,3 @@ def get_data():
 #####################################################################################
 
 
-
-
-@bp.route('/items_editable_table/', methods=['GET', 'POST'])
-@bp.route('/items_editable_table', methods=['GET', 'POST'])
-def items_editable_table():
-
-    data = []
-    if session['file_path']:
-        file_path = session['file_path']
-        print(file_path)
-        f = csv.DictReader(open(file_path))
-        for row in f:
-            data.append(row)
-
-        # clean up session
-        session['file_path'] = None
-        os.remove(file_path)
-
-    fieldnames = ["barcode", 'name', 'amount', 'price']
-
-    # data = [item.__dict__ for item in Item.query.all()]
-    # fieldnames = [key for key in results[0].keys() if "_" not in key]
-
-    if request.method == "POST":
-        return redirect(url_for('items.items'))
-
-    return render_template('items/items_table.html',
-                           results=data,
-                           fieldnames=fieldnames, len=len)
-
-
-@bp.route("/upload_file", methods=["GET", 'POST'])
-def upload_file():
-    if request.method == "GET":
-        return render_template('items/upload_file_form.html', title="Upload file")
-
-    elif request.method == "POST":
-
-        form = WriteData()
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-
-        # main logic
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            session['file_path'] = file_path
-
-            return redirect(url_for('items.items_editable_table', file_path=file_path))
-
-
-@bp.route("/postmethod", methods=[ 'GET','POST'])
-def postmethod():
-    queryStringDict = request.get_json(force=True)
-    print(queryStringDict)
-    flash('Success')
-    return jsonify(success=1)
