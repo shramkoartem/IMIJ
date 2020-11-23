@@ -17,9 +17,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
         autocomplete(document.getElementById("myInput"), items);
 
-        addItem("myInput", "add-button")
+        addItem("myInput", "add-button");
 
-        
     }
 
 
@@ -122,12 +121,11 @@ function autocomplete(inp, arr) {
                   b.addEventListener("click", function(e) {
                       /*insert the value for the autocomplete text field:*/
                       inp.value = this.getElementsByTagName("input")[0].value;
-                      document.getElementsByName("myInputBarcode")[0].value = document.getElementsByName("tempBarcode")[0].value;
-                      document.getElementsByName("myInputPrice")[0].value = document.getElementsByName("tempPrice")[0].value;
+                      document.getElementsByName("myInputBarcode")[0].value = this.getElementsByTagName("input")[1].value;
+                      document.getElementsByName("myInputPrice")[0].value = this.getElementsByTagName("input")[2].value;
 
                       /*close the list of autocompleted values,
                       (or any other open lists of autocompleted values:*/
-
                       closeAllLists();
                   });
               a.appendChild(b);
