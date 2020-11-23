@@ -1,0 +1,38 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "react js package for parts of a flask project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shramkoartem/IMIJ.git"
+  },
+  "keywords": [
+    "flask",
+    "crud",
+    "app"
+  ],
+  "author": "artem shramko, katharina spiecker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shramkoartem/IMIJ/issues"
+  },
+  "homepage": "https://github.com/shramkoartem/IMIJ#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^5.6.0",
+    "webpack-cli": "^4.2.0"
+  }
+}
