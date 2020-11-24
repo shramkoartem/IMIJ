@@ -4,8 +4,12 @@
 
 {{super()}}
 {% import 'bootstrap/wtf.html' as wtf %}
-<link rel="stylesheet" href="{{ url_for('static',filename='styles/autocomplete.css') }}"">
+<link rel="stylesheet" href="{{ url_for('static',filename='styles/autocomplete.css') }}">
 
+<!-- 
+    ToDo Stylesheet for the React rendered list of selected items.
+     To be replaced in a separate static css file.
+-->
 <style>
     div.selected-item {
         width:500px;
@@ -22,6 +26,7 @@
         padding: 10px;
     }
 </style>
+
 {% endblock %}
 
 

@@ -30,12 +30,17 @@ AJAX sourced DataTable instance
 def datatable_ajax():
     """
     AJAX sourced DataTable instance.
+    Contains a modular AddItemForm
 
     :f get_data(): returns JSON for the datatable 
                    rendered on this page (see below)
 
     """
-    return render_template("items/items_table_ajax.html")
+
+    # WTF form for committing a new item to DB
+    form = AddItemForm()
+
+    return render_template("items/items_table_ajax.html", form = form)
 
 #####################################################################################
 #
