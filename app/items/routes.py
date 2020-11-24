@@ -11,32 +11,13 @@ from app.models import Item
 from app import db
 
 
-#####################################################################################
 
-@bp.route('/add_item', methods=["GET", "POST"])
-def add_item():
-    """
-    Renders AddItemForm WTF form  
-    for commiting a new item to the db
-    """
-    form = AddItemForm()
-    return render_template('items/add_item.html', title="Add item", form=form)
 
 
 #####################################################################################
-
-
-@bp.route('/autocomplete', methods=["GET", "POST"])
-def autocomplete():
-    """
-    Transactions page. Main logic in javascript file "autocomplete_items.js".
-    1. Calls AJAX datasource endpoint 'get_data()', 
-        retrieves all data from db for autocomplete function 
-    2. React renders editable list of items in transaction (basket)
-    3. TODO handle PUSH of basket when transaction is completed
-    """
-    return render_template('items/autocomplete.html')
-
+#
+#                               WAREHOUSE TABLE
+#
 #####################################################################################
 
 """
@@ -54,8 +35,13 @@ def datatable_ajax():
                    rendered on this page (see below)
 
     """
-    return render_template("items/ajax_test.html")
+    return render_template("items/items_table_ajax.html")
 
+#####################################################################################
+#
+#                               AJAX DATA SOURCE
+#
+#####################################################################################
 
 @bp.route('/ajax_data/', methods=["GET", "POST"])
 def get_data():
@@ -79,5 +65,17 @@ def get_data():
     return jsonify(response)
 
 #####################################################################################
+#
+#                               ADD ITEM FORM
+#
+#####################################################################################
 
+@bp.route('/add_item', methods=["GET", "POST"])
+def add_item():
+    """
+    Renders AddItemForm WTF form  
+    for commiting a new item to the db
+    """
+    form = AddItemForm()
+    return render_template('items/add_item.html', title="Add item", form=form)
 

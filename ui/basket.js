@@ -5,12 +5,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// const ExampleComponent = () => <div>Example component</div>;
-function ExampleComponent() {
+const ExampleComponent = () => <div>Example component</div>;
+/*function ExampleComponent() {
     return(
         <div>Example component</div>
         )
-};
+};*/
    
 
 ReactDOM.render(<ExampleComponent />, document.getElementById('example-react-container'));
