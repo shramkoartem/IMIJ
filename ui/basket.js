@@ -1,7 +1,7 @@
 
 // tutorial on connecting react to flask:
 // https://arunmozhi.in/2017/10/22/using-react-for-parts-of-a-flask-app/
-//add basket updater
+//add basket update
 
 import React from 'react';
 import ReactDOM from 'react-dom';
