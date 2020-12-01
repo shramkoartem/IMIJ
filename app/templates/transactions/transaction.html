@@ -67,6 +67,10 @@
             <div id="example-react-container">
 
             </div>
+
+            <div>
+                <button onclick="submit_data()">POST data</button>
+            </div>
         </div>
     </div>
 </div>
@@ -94,8 +98,17 @@
 
     //autocomplete(document.getElementById("myInput"), countries);
 
-    //addItem("myInput", "add-button")   
-    
+    //addItem("myInput", "add-button")  
+    function submit_data() {
+        $.ajax({
+            url: '{{ url_for("transactions.push_basket") }}',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(basket),
+            //success: function(data) { alert(data.status); }
+            success: data => {alert(data.status);}
+        }); 
+    }
 
 </script>
 

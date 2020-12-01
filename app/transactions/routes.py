@@ -1,6 +1,8 @@
 from flask import render_template
 from flask import request
+from flask import jsonify
 from app.transactions import bp
+
 
 
 @bp.route('/transaction', methods=["GET", "POST"])
@@ -13,3 +15,11 @@ def transaction():
     3. TODO handle PUSH of basket when transaction is completed
     """
     return render_template('transactions/transaction.html')
+
+
+@bp.route('/push_basket', methods=["POST"])
+def push_basket():
+    rData = request.get_json()
+    print(rData)
+    return jsonify({'status' : 'success'})
+    
