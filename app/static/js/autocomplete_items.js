@@ -3,32 +3,7 @@
 /* -------------------------------------   MAIN   --------------------------------------- */
 /* -------------------------------------------------------------------------------------- */
 
-
-document.addEventListener("DOMContentLoaded", function(){
-    const req = new XMLHttpRequest();
-    req.open("GET", "/items/ajax_data/", true);
-    req.send();
-    req.onload = function(){
-        const json = JSON.parse(req.responseText);
-        console.log(json.data[0]);
-        const items = json.data 
-
-        //let basket = []
-
-        autocomplete(document.getElementById("myInput"), items);
-
-        addItem("myInput", "add-button");
-
-    }
-
-
-
-
-});
-
-/* -------------------------------------------------------------------------------------- */
-
-function autocomplete(inp, arr) {
+export function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:
         : inp - input string :
@@ -192,100 +167,9 @@ function autocomplete(inp, arr) {
 
   /* -------------------------------------------------------------------------------------- */
 
-  function addItem(inpID, btnID){
-  /* Add button on click listener */
-        document.getElementById(btnID).addEventListener("click", function()
-            {   
-                let val = document.getElementById(inpID).value;
-                
-                if(val != ""){
+  
 
-                  let itemObj = new Object();
-                  itemObj.name = val;
-                  itemObj.barcode = document.getElementsByName("myInputBarcode")[0].value; 
-                  itemObj.price = document.getElementsByName("myInputPrice")[0].value; 
-                  itemObj.amount = 1;
-                  //console.log(itemObj);
-                  basket.push(itemObj);
+    
 
-                  document.getElementsByName("myInputBarcode")[0].value = -1; 
-                  document.getElementsByName("myInputPrice")[0].value = 0; 
-                }
-                //alert(basket.length);
-                //updateList();
-                updateTable();
+  
 
-                document.getElementById(inpID).value="";
-
-            });
-    };
-
-
-    function updateList(){
-      /* Populate selected items div with elements from bucket array */
-        if (basket.length > 0) { 
-            /*a DIV element that will contain the items (values):*/
-            a = document.getElementById("selected-items");
-            /*cleanup to avoid value repetition*/
-            a.innerHTML="";
-            /*for each item in the array...*/
-            for (let i = 0; i < basket.length; i++) {
-            /*check if the item starts with the same letters as the text field value:*/
-                /*create a DIV element for each matching element:*/
-                elem = document.createElement("DIV");
-                elem.innerHTML = basket[i].name;
-                /*insert a input field that will hold the current array item's value:*/
-                elem.innerHTML += "<input name='input-barcode' type='hidden' value='" + basket[i].barcode+ "'>";
-                elem.innerHTML += "<input name='input-name' type='hidden' value='" + basket[i].name+ "'>";
-                elem.setAttribute("class", "selected-item");
-                a.appendChild(elem);
-            
-            }
-        }
-    };
-
-    function updateTable(){
-      /* Populate selected items div with elements from bucket array */
-        if (basket.length > 0) { 
-            /*a DIV element that will contain the items (values):*/
-            thead = document.getElementById("selected-items-thead");
-            tbody = document.getElementById("selected-items-tbody");
-            /*cleanup to avoid value repetition*/
-            tbody.innerHTML="";
-            thead.innerHTML="";
-
-            header = document.createElement("TR");
-            headers = ["Item", "Price", "Amount",""]
-            for (let i=0; i<headers.length; i++){
-              th = document.createElement("TH");
-              th.innerHTML = headers[i];
-              header.appendChild(th);
-            }
-            thead.appendChild(header);
-
-
-            /*for each item in the array...*/
-            for (let i = 0; i < basket.length; i++) {
-            /*check if the item starts with the same letters as the text field value:*/
-                /*create a DIV element for each matching element:*/
-                row = document.createElement("TR");
-                let cellName = row.insertCell(-1);
-                cellName.innerHTML = basket[i].name;
-                let cellPrice = row.insertCell(-1);
-                cellPrice.innerHTML = basket[i].price;
-                cellPrice.setAttribute("contenteditable", "true")
-                let cellAmount = row.insertCell(-1);
-                cellAmount.innerHTML = basket[i].amount;
-                cellAmount.setAttribute("contenteditable", "true")
-
-                row.innerHTML += "<input name='row-barcode' type='hidden' value='" + basket[i].barcode+ "'>";
-
-                /*insert a input field that will hold the current array item's value:*/
-                /*elem.innerHTML += "<input name='input-barcode' type='hidden' value='" + basket[i].barcode+ "'>";
-                elem.innerHTML += "<input name='input-name' type='hidden' value='" + basket[i].name+ "'>";
-                elem.setAttribute("class", "selected-item");*/
-                tbody.appendChild(row);
-            
-            }
-        }
-    };
