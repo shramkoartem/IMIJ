@@ -37,8 +37,19 @@ def datatable_ajax():
 
     """
 
+
     # WTF form for committing a new item to DB
     form = AddItemForm()
+    if form.validate_on_submit():
+        
+        item = {
+            "barcode" : form.barcode.data,
+            "name" : form.name.data,
+            "amount" : form.amount.data,
+            "price" : form.price.data
+        }
+        write_item(item)
+        return redirect(url_for('items.datatable_ajax') )
 
     return render_template("items/items_table_ajax.html", form = form)
 

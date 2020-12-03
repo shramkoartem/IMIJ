@@ -27,22 +27,18 @@
     <div class="card-body">
         <div class="mt-4">
 
-            <!-- Trigger/Open The Modal -->
+        <!-- Trigger/Open The Modal -->
         <button id="addItemBtn">Add item</button>
+        
 
         <!-- The Modal -->
         <div id="addItemModal" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <div class="container">
-                    <h1>Add item</h1>
-                    <div class="row">
-                        <div class="col-md-4">
-                            {{ wtf.quick_form(form) }}
-                        </div>
-                    </div>
-                </div>
+
+                {% include 'items/add_item.html' %}
+
             </div>
         </div>
 

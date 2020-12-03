@@ -2,6 +2,7 @@ from flask import current_app, flash
 from datetime import datetime
 from app import db
 from app.models import Item
+import random
 
 
 def allowed_file(filename):
@@ -27,18 +28,30 @@ def write_items(data):
     }
     """
     items_list = data
-    ts = datetime.now().strftime("%Y%m%d%H%M")
-    for i, row in enumerate(items_list):
+
+    for i, item in enumerate(items_list):
         print(row)
         # redo as dict!
-        item = Item(id=int(ts + str(i)),
-                    barcode=row["barcode"],
-                    name=row['name'],
-                    amount=row['amount'],
-                    price=row['price'])
-        try:
-            db.session.add(item)
-            db.session.commit()
-        except Exception as e:
-            flash(e)
+        write_item(item)
     flash("Items successfully stored in database.")
+
+def write_item(data):
+    """
+    Utility function for pushing an item to the db
+
+    :data: = {
+            barcode:int - actual product barcode (used for scanning via app)
+            name:str - product name
+            amount:int
+            price:int
+    """
+    ts = datetime.now().strftime("%Y%m%d%H%M")
+    data["id"] = int(ts + str(random.randint(100,999)))
+    item = Item(**data)
+
+    try:
+        db.session.add(item)
+        db.session.commit()
+
+    except Exception as e:
+        flash(e)
