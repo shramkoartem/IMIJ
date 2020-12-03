@@ -35,7 +35,6 @@
 <div class="container">
     <div class="card-body">
         <div class="mt-4">
-
             <form autocomplete="off" id="transaction-form" action="">
                 <div class="autocomplete" style="width:500px;">
                   <input id="myInput" type="text" name="myInputName" placeholder="Start typing...">
@@ -44,30 +43,10 @@
                 </div>
                 <button id="add-button" type="button">Add</button>
             </form>
-            <div id="selected-items" >
-
-            </div>
-            <div>
-                <table class="table" id="selected-items-table">
-                    <thead class="thead-light" id="selected-items-thead"> 
-                      
-                    </thead>
-                    <tbody id="selected-items-tbody">
-
-                    </tbody>
-                    <tfoot id="selected-items-tfoot">
-  
-                    </tfoot>
-
-                </table>
-            </div>    
-            <div>
-                <table id="example" class="display" width="100%"></table>
-            </div>
-            <div id="example-react-container">
-
-            </div>
         </div>
+        <div id="basket">
+            <!-- react component will render here -->
+        </div>    
     </div>
 </div>
 
@@ -80,23 +59,7 @@
 <!-- JQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
-
-<script src="{{ url_for('static',filename='js/autocomplete_items.js') }}"> </script>
 <script src="{{ url_for('static',filename='js/basket.js') }}"> </script>
 
-
-
-
-<script>
-
-    let basket = []
-
-    //autocomplete(document.getElementById("myInput"), countries);
-
-    //addItem("myInput", "add-button")   
-    
-
-</script>
 
 {% endblock %}
