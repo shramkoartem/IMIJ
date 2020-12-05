@@ -53,3 +53,9 @@ def push_items_db(data):
     if item:
         item.amount -= data["amount"]
         db.session.commit() 
+
+def push_transactions_db(data):
+    """
+    Commits transaction data to Transactions DB
+    """
+    pass
