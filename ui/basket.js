@@ -1,10 +1,12 @@
 // tutorial on connecting react to flask:
 // https://arunmozhi.in/2017/10/22/using-react-for-parts-of-a-flask-app/
-//add basket update
 import React from "react";
 import ReactDOM from "react-dom";
 import { autocomplete } from "../app/static/js/autocomplete_items.js";
 import THeader from "./TableHeader";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 
 export default class Basket extends React.Component {
   constructor() {
@@ -16,6 +18,7 @@ export default class Basket extends React.Component {
     this.decrease = this.decrease.bind(this);
     this.addItem = this.addItem.bind(this);
     this.increaseAmount = this.increaseAmount.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   componentDidMount() {
@@ -77,6 +80,7 @@ addItem(){
 
   decrease(e) {
     // find index of array object that matches the clicked button
+    console.log(this)
     let barcode = e.currentTarget.parentNode.parentNode.lastChild.getAttribute("value");
     let i = this.state.basket.findIndex((item) => item.barcode == barcode);
     if(this.state.basket[i].amount > 1){
@@ -90,7 +94,24 @@ addItem(){
     }
   }
 
+  delete(e){
+    let barcode = e.currentTarget.parentNode.parentNode.lastChild.getAttribute("value");
+    let i = this.state.basket.findIndex((item) => item.barcode == barcode);
+      this.setState((prevState) => {
+        let basket = prevState.basket.slice();
+        basket.splice(i,1);
+        return { basket: basket };
+      });
+  }
+
   render() {
+
+    const buttonStyle = {
+      marginLeft: 4,
+      padding: 2,
+      borderRadius: 2
+    }
+
     return (
         <table class="table" id="selected-items-table">
           <THeader basket={this.state.basket} />
@@ -99,10 +120,12 @@ addItem(){
               <tr>
                 <td>{item.name}</td>
                 <td>{item.price}</td>
-                <td>
-                  {item.amount} <button onClick={this.increase}>+</button>{" "}
-                  <button onClick={this.decrease}>-</button>{" "}
-                </td>
+                <td style={{display: "flex", alignItems: "center"}}>
+                  {item.amount}
+                  <button onClick={this.increase} style={buttonStyle} className="transaction-button"><FontAwesomeIcon icon={faPlus}/></button>
+                  <button onClick={this.decrease} style={buttonStyle} className="transaction-button"><FontAwesomeIcon icon={faMinus}/></button>
+                  <button onClick={this.delete} style={buttonStyle} className="transaction-button"><FontAwesomeIcon icon={faTrash}/></button>
+                </td> 
                 <input name="row-barcode" type="hidden" value={item.barcode} />
               </tr>
             ))}
@@ -111,6 +134,8 @@ addItem(){
         </table>
     );
   }
+
+  
 }
 
 ReactDOM.render(<Basket />, document.getElementById("basket"));
