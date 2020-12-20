@@ -78,12 +78,14 @@ addItem(){
 }
 
 submitNewItem(){
-  // how does new element get barcode
   let itemObj = new Object();
   // could also get value straight from input, but better this way if edited again
   itemObj.name = document.querySelector("#form-name").value;
   itemObj.price = document.querySelector("#form-price").value;
   itemObj.amount = document.querySelector("#form-amount").value;
+  //create timestamp for barcode (needed by some functions as an id)
+  const currentDate = new Date();
+  itemObj.barcode = currentDate.getTime();
   // add to basket
   this.setState((prevState) => {
     let newBasket = prevState.basket.slice();
