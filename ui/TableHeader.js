@@ -8,7 +8,7 @@ export default function THeader(props){
                     <th>Item</th>
                     <th>Price</th>
                     <th>Amount</th>
-                    <th></th>
+                    <th></th> 
                 </tr>
             </thead>
         )

@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import { autocomplete } from "../app/static/js/autocomplete_items.js";
 import THeader from "./TableHeader";
 import PopUp from "./PopUp";
+import SummaryRow from "./SummaryRow";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -148,6 +149,7 @@ submitNewItem(){
     }
 
     return (
+      <React.Fragment>
         <table class="table" id="selected-items-table">
           <THeader basket={this.state.basket} />
           <tbody id="selected-items-tbody">
@@ -167,12 +169,11 @@ submitNewItem(){
               </tr>
             ))}
           </tbody>
-          <tfoot id="selected-items-tfoot"></tfoot>
         </table>
+        <SummaryRow basket={this.state.basket}/>
+      </React.Fragment>
     );
   }
-
-  
 }
 
 ReactDOM.render(<Basket />, document.getElementById("basket"));
