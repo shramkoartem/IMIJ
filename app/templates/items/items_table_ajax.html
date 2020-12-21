@@ -88,7 +88,7 @@ $(document).ready(function() {
         "dataSrc": "data"
         },
         "columns": [
-            {data: "barcode"},
+            {className:"td-barcode", data: "barcode"},
             {data: "name"},
             {data: "price"},
             {data: "amount"},
@@ -108,6 +108,16 @@ $(document).ready(function() {
 
     // instantiate datatable
     var table = $('#example').DataTable(example_table);
+
+    $('#example tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
 
 
     // Get the modal

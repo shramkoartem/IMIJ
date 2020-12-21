@@ -1,11 +1,6 @@
 const path = require('path');
  
-module.exports = {
-    entry: './ui/basket.js',  
-    output: {
-        path: path.resolve(__dirname, 'app/static/js/'),
-        filename: "basket.js"
-    },
+var config = {
     module: {
         rules: [
             { 
@@ -15,4 +10,28 @@ module.exports = {
             }
         ]
     }
-}
+};
+
+
+var basket = Object.assign({}, config, {
+    name: "basket",
+    entry: './ui/basket.js',
+    output: {
+        path: path.resolve(__dirname, 'app/static/js/'),
+        filename: "test_basket.js"
+    }
+});
+
+var uploadTable = Object.assign({}, config, {
+    name: "uploadTable",
+    entry: './ui/uploadItems/UploadItemsTable.js',
+    output: {
+        path: path.resolve(__dirname, 'app/static/js/'),
+        filename: "test_uploadItemsTable.js"
+    }
+});
+
+module.exports = [
+    basket, uploadTable
+];
+
