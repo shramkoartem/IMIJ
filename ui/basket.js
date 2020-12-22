@@ -6,6 +6,7 @@ import { autocomplete } from "../app/static/js/autocomplete_items.js";
 import THeader from "./TableHeader";
 import PopUp from "./PopUp";
 import SummaryRow from "./SummaryRow";
+import SubmitButton from "./SubmitButton";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -170,7 +171,14 @@ submitNewItem(){
             ))}
           </tbody>
         </table>
-        <SummaryRow basket={this.state.basket}/>
+        {/* show summary row conditionally */}
+        {this.state.basket.length > 0? 
+        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+          <SummaryRow basket={this.state.basket}/>
+          <SubmitButton basket={this.state.basket}/>
+        </div>
+        : null
+        }
       </React.Fragment>
     );
   }
