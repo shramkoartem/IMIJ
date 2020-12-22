@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block styles %}
+
+{{super()}}
+
+
+{% endblock %}
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block app_content %}
+
+
+<div class="container">
+
+    <div id="uploadTable">
+            <!-- react component will render here -->
+    </div>    
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static',filename='js/uploadItemsTable.js') }}"> </script>
+
+{% endblock %}

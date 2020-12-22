@@ -95,3 +95,19 @@ def add_item():
     form = AddItemForm()
     return render_template('items/add_item.html', title="Add item", form=form)
 
+
+
+
+#####################################################################################
+#
+#                               UPLOAD ITEMS TABLE
+#
+#                   React table to edit items from uploaded excel
+#                         and submit them to the databse
+#
+#####################################################################################
+
+@bp.route("upload_table", methods=["GET", "POST"])
+def upload_table():
+
+    return render_template("items/uploadTable.html")

@@ -6,7 +6,11 @@ var config = {
             { 
             test: /\.js$/,
             exclude: /node_modules/,
-            loader: "babel-loader"
+            loader: "babel-loader",
+            options: {
+                presets: ['react', 'es2016', ],
+                plugins: ['babel-plugin-transform-class-properties']
+              }
             }
         ]
     }
@@ -27,7 +31,7 @@ var uploadTable = Object.assign({}, config, {
     entry: './ui/uploadItems/UploadItemsTable.js',
     output: {
         path: path.resolve(__dirname, 'app/static/js/'),
-        filename: "test_uploadItemsTable.js"
+        filename: "uploadItemsTable.js"
     }
 });
 
