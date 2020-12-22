@@ -16,17 +16,24 @@ export default class SummaryRow extends React.Component {
         })
     }
 
+    
     render(){
-        if(this.props.basket.length > 0){
-            let totalBefore = this.props.basket.reduce((total, item) => {return total += item.amount * item.price},0)
+        const inputStyle = {
+            display: "inline-block",
+            width: 50,
+            height: 20,
+            marginLeft: 5,
+            textAlign: "center"
+        }
+        let totalBefore = this.props.basket.reduce((total, item) => {return total += item.amount * item.price},0)
             return (
-                        <div>
+                        <div style={{lineHeight: 2}}>
                             <div>Total: {totalBefore}</div>      
-                            <div>Discount<input style={{width: 50, height: 20, marginLeft: 5}} value={this.state.discount} onChange={this.updateInput}/></div>
-                            <div><strong>Final Total: {totalBefore-this.state.discount}</strong></div>
+                            <div>Discount<input id="discount" class="form-control" style={inputStyle} value={this.state.discount} onChange={this.updateInput}/></div>
+                            <div>
+                                <strong>Final Total: <span id="final_total">{totalBefore-this.state.discount}</span></strong>
+                            </div>
                         </div>
             )
-        }
-        else return null;
     }
 }
