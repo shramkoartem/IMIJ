@@ -93,7 +93,7 @@ export default class UploadItemsTable extends React.Component {
         return (
             <div class="container">
                 <p>{ this.state.fileName }123</p>
-                <table class="display">
+                <table class="table display">
                   <thead>
                     <tr>  
                       {  "Margin:" + this.state.margin }
