@@ -1,7 +1,7 @@
 from flask import current_app, flash
 from datetime import datetime
 from app import db
-from app.models import Item
+from app.models import Item, ItemHistory
 import random
 
 
@@ -30,9 +30,24 @@ def write_items(data):
     items_list = data
 
     for i, item in enumerate(items_list):
-        print(row)
+        print(item)
         # redo as dict!
-        write_item(item)
+        existing_item = Item.query.filter_by(barcode = item["barcode"]).first()
+
+        # Check if item already exists and update info
+        if existing_item:
+            existing_item.amount += int(item["amount"])
+            existing_item.price = int(item["price"])
+            existing_item.cost = int(item["cost"])
+            db.session.commit() 
+
+        # else save new item
+        else :
+            write_item(item)
+
+        # Log change in Items History    
+        write_item_history(item, "in")
+
     flash("Items successfully stored in database.")
 
 def write_item(data):
@@ -44,6 +59,7 @@ def write_item(data):
             name:str - product name
             amount:int
             price:int
+            cost:int
     """
     ts = datetime.now().strftime("%Y%m%d%H%M")
     data["id"] = int(ts + str(random.randint(100,999)))
@@ -55,3 +71,27 @@ def write_item(data):
 
     except Exception as e:
         flash(e)
+
+
+def write_item_history(data, transaction_type):
+    """
+    Utility function for saving Item change in history log
+
+    :data: = {
+        barcode:int - actual product barcode (used for scanning via app)
+        name:str - product name
+        amount:int
+        price:int
+        cost:int
+    """
+    ts = datetime.now().strftime("%Y%m%d%H%M")
+    data["id"] =  int("00" + ts + str(random.randint(100,999)))
+    data["transaction_type"] = transaction_type
+    item = ItemHistory(**data)
+    try:
+        db.session.add(item)
+        db.session.commit()
+
+    except Exception as e:
+        flash(e)
+

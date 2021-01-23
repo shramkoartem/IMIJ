@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from './Item'
 
-class Table extends React.Component {
+class ItemsTable extends React.Component {
 
     render(){
 
@@ -20,4 +20,4 @@ class Table extends React.Component {
 
 }
 
-export default Table;
+export default ItemsTable;

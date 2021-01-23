@@ -1,38 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Table from './components/Table'
+import ItemsTable from './components/ItemsTable'
+import axios from 'axios';
+
+// import "./uploadTable.css"
+// import "./uploadBox.css"
+// import "./buttons.css"
+
+
+// import "./../app/static/styles/upload_table/uploadTable.css"
+// import "../../ app/static/styles/upload_table/uploadBox.css"
+// import "../../app/static/styles/upload_table/buttons.css"
+
+
+
+
 
 export default class UploadItemsTable extends React.Component {
     constructor(){
         super();
         this.state= {
-            items: [
-              {
-                name: "Key Труси жін LPC 908 A20 multicolor L",
-                barcode: "5904765604464",
-                cost: 99,
-                price: 120,
-                amount: 1
-              },
-              {
-                name: "Key Труси жін LPC 908 A20 multicolor XL",
-                barcode: "5904765604471",
-                cost: 99,
-                price: 120,
-                amount: 1
-              },
-              {
-                name: "Key Труси жін LPC 913 A20 multicolor L",
-                barcode: "5904765604709",
-                cost: 99,
-                price: 120,
-                amount: 1
-              }
-              ],
+            items: [],
             fileName: "test",
             margin: 100,
+
+            // upload box
+            selectedFile: null,
+
+
         }
     }
+
 
     handleClick = (e) => {
       console.log(e)
@@ -84,30 +82,78 @@ export default class UploadItemsTable extends React.Component {
         filter(item => item.barcode !== barcode)});
     }
 
+    onClickTableSubmitHandler = () => {
+      const items = this.state.items;
+      axios.post("http://127.0.0.1:5000/items/post_upload_table_data", items, {
 
+      }).then( res => {
+        console.log(res.statusText)
+        if(res.statusText == "OK"){
+          alert("Success")
+          this.setState({items: []})
+        }
+      })
+    }
     // ToDo - move header to a separate component
+
+    // UPLOAD BOX
+    onChangeBoxHandler = (e) => {
+      console.log(e.target.files[0]);
+      this.setState({
+        selectedFile: e.target.files[0],
+        loaded: 0
+      })
+    }
+
+    onClickBoxHandler = () => {
+      const data = new FormData() 
+      data.append('file', this.state.selectedFile)
+      axios.post("http://127.0.0.1:5000/items/upload_file", data, { 
+        // receive two parameter endpoint url ,form data 
+        
+        })
+        .then(res => { // then print response status
+                  console.log(res.statusText)
+                  if(res.data && res.data.length > 0){
+                    let items = res.data;
+                    this.setState({items: [...items]})
+                  }
+                  
+              })
+    }
 
 
     render(){
 
         return (
-            <div class="container">
-                <p>{ this.state.fileName }123</p>
-                <table class="table display">
-                  <thead>
-                    <tr>  
-                      {  "Margin:" + this.state.margin }
-                      <button onClick={this.increaseMargin}>+</button>
-                      <button onClick={this.decreaseMargin}>-</button>
-                      <button onClick={this.applyPriceMargin}>Apply</button>
 
-                    </tr>
-                    <tr>
-                      { ["barcode", "name", "cost", "price", "amount"].map( (i) => (<th> {i}</th>) ) }
-                    </tr>
+            <div class="container" style={{margin: "auto", width:"80%"}}>
+
+            <p>{ this.state.fileName }123</p>
+
+
+              <div class="col-md-6" style={{ position: "relative", width:"20%", }}>
+                <form method="post" action="#" id="#">
+                  <div class="form-group files">
+                      <label>Upload Your File </label>
+                      <input type="file" class="form-control" multiple="" onChange={this.onChangeBoxHandler} />
+                  </div>
+                </form>
+                <button type="button" class="btn btn-success btn-block submit" onClick={this.onClickBoxHandler}>Upload</button> 
+              </div>
+
+                <div style={{float:"right", position:"relative"}}>   
+                        {  "Margin:" + this.state.margin }
+                        <button onClick={this.increaseMargin}>+</button>
+                        <button onClick={this.decreaseMargin}>-</button>
+                        <button class="submit" onClick={this.applyPriceMargin}>Apply</button>
+                      </div>
+                <table  id="uploadTable">
+                  <thead>
+                      { ["barcode", "name", "cost", "price", "amount", ""].map( (i) => (<th style={thStyle}> {i}</th>) ) }
                   </thead>
                   <tbody>
-                    <Table 
+                    <ItemsTable 
                       items={ this.state.items } 
                       handleClick = {this.handleClick} 
                       changeAmount = { this.changeAmount }
@@ -115,12 +161,25 @@ export default class UploadItemsTable extends React.Component {
                     />
                   </tbody>
                 </table>
+                <button type="button" class="btn btn-success btn-block submit" 
+                  onClick={this.onClickTableSubmitHandler}>Save to Database</button> 
+
             </div>
         )
     }
 }
 
-ReactDOM.render(
+  const thStyle = {
+    paddingTop: "12px",
+    paddingLeft: "15px",
+    paddingBottom: "12px",
+    textAlign: "left",
+    backgroundColor: "#0099ff",
+    color: "white"
+  };
+
+
+
+  ReactDOM.render(
     <UploadItemsTable />,
     document.getElementById("uploadTable"))
-

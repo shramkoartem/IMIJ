@@ -1,0 +1,23 @@
+
+button.submit {
+    display: inline-block;
+
+    padding : 0.35em 1.2em;
+    border:0.1em solid #0099ff;
+    margin: 0 0.3em 0.3em 0.3em;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:400;
+    color:#0099ff;
+    text-align:center;
+    transition: all 0.2s;
+    background-color: #ffffff;
+    }
+    
+    button.submit:hover{
+    color:#ffffff;
+    background-color:#0099ff;
+    }
+   

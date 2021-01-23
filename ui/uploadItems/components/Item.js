@@ -13,7 +13,8 @@ class Item extends React.Component {
         }
 
         return (
-            <tr>
+
+            <tr >
                 <td>
                     <p>{ barcode }</p>
                 </td>
@@ -56,5 +57,7 @@ class Item extends React.Component {
 
 } 
 
-
 export default Item;
+
+
+

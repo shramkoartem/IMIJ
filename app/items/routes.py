@@ -1,14 +1,20 @@
 import os
 import csv
+import json
+import copy
+
 from flask import current_app
 from flask import render_template, jsonify
 from flask import request, redirect, flash, session, url_for
+from flask_cors import cross_origin
+
 from app.items import bp
 from app.items.forms import AddItemForm, WriteData
 from app.items.utils import *
 from werkzeug.utils import secure_filename
-from app.models import Item
+from app.models import Item, ItemHistory
 from app import db
+
 
 
 
@@ -111,3 +117,32 @@ def add_item():
 def upload_table():
 
     return render_template("items/uploadTable.html")
+
+# API for file upload
+@bp.route("upload_file", methods=["OPTIONS", "POST"])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def upload_file():
+    if request.method == "POST":
+
+        f = request.files['file']
+        fstring = f.read().decode("utf-8") 
+        csv_dicts = [{k: v for k, v in row.items()} 
+                    for row in csv.DictReader(fstring.splitlines(), 
+                                            skipinitialspace=True)]
+        print(csv_dicts)
+ 
+    return jsonify(csv_dicts)
+
+
+# API for file upload
+@bp.route("post_upload_table_data", methods=["OPTIONS", "POST"])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
+def post_upload_table_data():
+    if request.method == "POST":
+        
+        items = json.loads( request.data.decode("utf-8") )
+        #print(items)
+        write_items(items)
+ 
+    return jsonify("success")
+

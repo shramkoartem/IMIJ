@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+from flask_cors import CORS, cross_origin
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -22,7 +23,10 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    
+    # enable Cross-origin resource sharing
+    CORS(app, resources={r"/foo": {"origins": "http://localhost:port"}})
+
+
     ### Register blueprints ###
 
     from app.main import bp as main_bp
@@ -65,6 +69,5 @@ def create_app(config_class=Config):
 
 
     return app
-
 
 from app import models
